@@ -33,10 +33,11 @@
         android:layout_gravity="end|bottom"
         android:text="-1" />
 
-    <ru.kizup.verticalrangebar.VerticalRangeBar
+    <ru.kizup.verticalrangebar.HorizontalRangeBar
         android:id="@+id/range_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="32dp"
         android:padding="32dp"
         app:disableLineColor="@color/colorPrimaryDark"

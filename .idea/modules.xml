@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/VerticalRangeBardemo.iml" filepath="$PROJECT_DIR$/VerticalRangeBardemo.iml" />
+      <module fileurl="file://D:\Projects\vertical-rangebar\VerticalRangeBardemo.iml" filepath="D:\Projects\vertical-rangebar\VerticalRangeBardemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\Projects\vertical-rangebar\app\app.iml" filepath="D:\Projects\vertical-rangebar\app\app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vertical-rangebar.iml" filepath="$PROJECT_DIR$/vertical-rangebar.iml" />
       <module fileurl="file://$PROJECT_DIR$/verticalrangebar/verticalrangebar.iml" filepath="$PROJECT_DIR$/verticalrangebar/verticalrangebar.iml" />
+      <module fileurl="file://D:\Projects\vertical-rangebar\verticalrangebar\verticalrangebar.iml" filepath="D:\Projects\vertical-rangebar\verticalrangebar\verticalrangebar.iml" />
     </modules>
   </component>
 </project>

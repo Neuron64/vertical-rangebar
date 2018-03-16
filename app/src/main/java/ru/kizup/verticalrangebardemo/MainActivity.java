@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import ru.kizup.verticalrangebar.HorizontalRangeBar;
+import ru.kizup.verticalrangebar.OnRangeChangeListener;
 import ru.kizup.verticalrangebar.VerticalRangeBar;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,9 +16,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final VerticalRangeBar verticalRangeBar = findViewById(R.id.range_bar);
+        final HorizontalRangeBar verticalRangeBar = findViewById(R.id.range_bar);
         verticalRangeBar.setRange(10000, 100000);
-        verticalRangeBar.setOnRangeChangeListener(new VerticalRangeBar.OnRangeChangeListener() {
+        verticalRangeBar.setOnRangeChangeListener(new OnRangeChangeListener() {
             @Override
             public void onStartProgressChange(int progress) {
                 Log.d("VerticalRangeBar", "start real value: -> " + verticalRangeBar.getRealStartValue());

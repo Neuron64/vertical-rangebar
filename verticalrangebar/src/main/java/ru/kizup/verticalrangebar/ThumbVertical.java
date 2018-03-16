@@ -3,39 +3,36 @@ package ru.kizup.verticalrangebar;
 import android.graphics.Rect;
 
 /**
- * Created by: dpuzikov on 15.03.18.
- * e-mail: kizup.diman@gmail.com
- * Skype: kizupx
+ * Created by Neuron on 16.03.2018.
  */
 
-public class Thumb {
+public class ThumbVertical {
 
     private int centerX;
     private int centerY;
     private Rect rect;
     private int value;
     private int size;
-    private RangeBar rangeBar;
+    private VerticalRangeBar view;
     private boolean isStartThumb;
 
-    Thumb(int centerX, int centerY, int size, RangeBar rangeBar, boolean isStartThumb) {
+    ThumbVertical(int centerX, int centerY, int size, VerticalRangeBar verticalRangeBar, boolean isStartThumb) {
         this.centerX = centerX;
         this.centerY = centerY;
         this.size = size;
-        this.rangeBar = rangeBar;
+        this.view = verticalRangeBar;
         rect = new Rect();
         this.isStartThumb = isStartThumb;
         setRect();
     }
 
     boolean contains(int x, int y) {
-        return rect.contains(y, x);
+        return rect.contains(x, y);
     }
 
     private void setRect() {
         int halfSize = size / 2;
         rect.set(centerX - halfSize, centerY - halfSize, centerX + halfSize, centerY + halfSize);
-//        rect.set(centerY - halfSize, centerX - halfSize, centerY + halfSize, centerX + halfSize);
     }
 
     int getCenterX() {
@@ -53,8 +50,8 @@ public class Thumb {
 
     void setCenterY(int centerY) {
         this.centerY = centerY;
-        int padding = isStartThumb ? rangeBar.getPaddingStart() : rangeBar.getPaddingEnd();
-        float value = ((float) (centerY - padding) / rangeBar.getStepPx());
+        int padding = isStartThumb ? view.getPaddingTop() : view.getPaddingBottom();
+        float value = ((float) (centerY - padding) / view.getStepPx());
         this.value = Math.round(value);
         setRect();
     }
@@ -73,8 +70,8 @@ public class Thumb {
 
     void setValue(int value) {
         this.value = value;
-        int offset = isStartThumb ? rangeBar.getPaddingStart() : rangeBar.getPaddingEnd();
-        int y = (int) (rangeBar.getStepPx() * value) + offset;
+        int offset = isStartThumb ? view.getPaddingTop() : view.getPaddingBottom();
+        int y = (int) (view.getStepPx() * value) + offset;
         setCenterY(y);
     }
 

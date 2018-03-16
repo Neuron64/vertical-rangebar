@@ -3,12 +3,10 @@ package ru.kizup.verticalrangebar;
 import android.graphics.Rect;
 
 /**
- * Created by: dpuzikov on 15.03.18.
- * e-mail: kizup.diman@gmail.com
- * Skype: kizupx
+ * Created by Neuron on 16.03.2018.
  */
 
-public class Thumb {
+public class ThumbHorizontal {
 
     private int centerX;
     private int centerY;
@@ -18,7 +16,7 @@ public class Thumb {
     private RangeBar rangeBar;
     private boolean isStartThumb;
 
-    Thumb(int centerX, int centerY, int size, RangeBar rangeBar, boolean isStartThumb) {
+    ThumbHorizontal(int centerX, int centerY, int size, RangeBar rangeBar, boolean isStartThumb) {
         this.centerX = centerX;
         this.centerY = centerY;
         this.size = size;

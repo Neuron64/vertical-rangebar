@@ -18,12 +18,10 @@ import static android.view.MotionEvent.ACTION_MOVE;
 import static android.view.MotionEvent.ACTION_UP;
 
 /**
- * Created by: dpuzikov on 15.03.18.
- * e-mail: kizup.diman@gmail.com
- * Skype: kizupx
+ * Created by Neuron on 16.03.2018.
  */
 
-public class VerticalRangeBar extends View implements RangeBar{
+public class HorizontalRangeBar extends View implements RangeBar {
 
     public static final String TAG = VerticalRangeBar.class.getSimpleName();
 
@@ -38,11 +36,12 @@ public class VerticalRangeBar extends View implements RangeBar{
 //    private Rect mStartThumbRect;
 //    private Rect mEndThumbRect;
 
-    private ThumbVertical mStartThumb;
-    private ThumbVertical mEndThumb;
+    private ThumbHorizontal mStartThumb;
+    private ThumbHorizontal mEndThumb;
 
-    private int viewWidth;
-    private int height;
+    private int viewHeight;
+
+    private int width;
     private int startThumbSize;
     private int endThumbSize;
 
@@ -70,22 +69,22 @@ public class VerticalRangeBar extends View implements RangeBar{
     private OnRangeChangeListener mOnRangeChangeListener;
     private boolean firstMeasure = true;
 
-    public VerticalRangeBar(Context context) {
+    public HorizontalRangeBar(Context context) {
         this(context, null);
     }
 
-    public VerticalRangeBar(Context context, @Nullable AttributeSet attrs) {
+    public HorizontalRangeBar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, 0, 0);
     }
 
-    public VerticalRangeBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public HorizontalRangeBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr, 0);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public VerticalRangeBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public HorizontalRangeBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs, defStyleAttr, defStyleRes);
     }
@@ -246,14 +245,14 @@ public class VerticalRangeBar extends View implements RangeBar{
                 break;
             }
             case ACTION_MOVE: {
-                int y = touchY;
+                int y = touchX;
 
-                if (y <= getPaddingTop()) y = getPaddingTop();
-                if (y >= height) y = height;
+                if (y <= getPaddingStart()) y = getPaddingStart();
+                if (y >= width) y = width;
 
                 if (isCanDragStart) {
-                    if (y >= (mEndThumb.getRect().top - (startThumbSize / 2))) {
-                        y = (mEndThumb.getRect().top - (startThumbSize / 2));
+                    if (y >= (mEndThumb.getRect().left - (startThumbSize / 2))) {
+                        y = (mEndThumb.getRect().left - (startThumbSize / 2));
                     }
                     mStartThumb.setCenterY(y);
                     startValue = mStartThumb.getValue();
@@ -264,8 +263,8 @@ public class VerticalRangeBar extends View implements RangeBar{
                 }
 
                 if (isCanDragEnd) {
-                    if (y <= (mStartThumb.getRect().bottom + endThumbSize / 2)) {
-                        y = mStartThumb.getRect().bottom + endThumbSize / 2;
+                    if (y >= (mStartThumb.getRect().right + endThumbSize / 2)) {
+                        y = mStartThumb.getRect().right + endThumbSize / 2;
                     }
 
                     mEndThumb.setCenterY(y);
@@ -304,22 +303,22 @@ public class VerticalRangeBar extends View implements RangeBar{
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        viewWidth = getPaddingStart() + getPaddingEnd() + endThumbSize;
-        height = getHeight();
+        viewHeight = getPaddingStart() + getPaddingEnd() + endThumbSize;
 
-        viewWidth = viewWidth - (getPaddingTop() * 2);
-        height = height - (getPaddingBottom());
+        width = getWidth();
 
-        lineStartY = getPaddingTop();
-        lineStopY = height;
+        width = width - (getPaddingEnd());
+
+        lineStartY = getPaddingStart();
+        lineStopY = width;
 
         if (mStartThumb == null) {
-            mStartThumb = new ThumbVertical(viewWidth / 2, lineStartY, startThumbSize, this, true);
+            mStartThumb = new ThumbHorizontal(getHeightCenter(), lineStartY, startThumbSize, this, true);
             mStartThumb.setValue(startValue);
         }
 
         if (mEndThumb == null) {
-            mEndThumb = new ThumbVertical(viewWidth / 2, lineStopY, endThumbSize, this, false);
+            mEndThumb = new ThumbHorizontal(getHeightCenter(), lineStopY, endThumbSize, this, false);
             mEndThumb.setValue(endValue);
         }
     }
@@ -340,7 +339,7 @@ public class VerticalRangeBar extends View implements RangeBar{
         return stepPx;
     }
 
-    public int getLineSize() {
+    int getLineSize() {
         int size = lineStopY - lineStartY;
         return size;
     }
@@ -351,16 +350,17 @@ public class VerticalRangeBar extends View implements RangeBar{
 
         if (mStartThumb == null || mEndThumb == null) return;
         checkThumbs();
-        viewWidth = getWidth();
-        mStartThumb.setCenterX(viewWidth / 2);
-        mEndThumb.setCenterX(viewWidth / 2);
+        viewHeight = getHeight();
 
-        canvas.drawLine(viewWidth / 2, mStartThumb.getCenterY(), viewWidth / 2, mEndThumb.getCenterY(), mLinePaint);
-        canvas.drawLine(viewWidth / 2, lineStartY, viewWidth / 2, mStartThumb.getCenterY(), mDisabledLinePaint);
-        canvas.drawLine(viewWidth / 2, lineStopY, viewWidth / 2, mEndThumb.getCenterY(), mDisabledLinePaint);
+        mStartThumb.setCenterX(getHeightCenter());
+        mEndThumb.setCenterX(getHeightCenter());
 
-        canvas.drawCircle(mStartThumb.getCenterX(), mStartThumb.getCenterY(), startThumbSize / 2, mStartThumbPaint);
-        canvas.drawCircle(mEndThumb.getCenterX(), mEndThumb.getCenterY(), endThumbSize / 2, mEndThumbPaint);
+        canvas.drawLine(mStartThumb.getCenterY(), getHeightCenter(), mEndThumb.getCenterY(), getHeightCenter(), mLinePaint);
+        canvas.drawLine(lineStartY, getHeightCenter(), mStartThumb.getCenterY(), getHeightCenter(), mDisabledLinePaint);
+        canvas.drawLine(lineStopY, getHeightCenter(), mEndThumb.getCenterY(), getHeightCenter(), mDisabledLinePaint);
+
+        canvas.drawCircle(mStartThumb.getCenterY(), mStartThumb.getCenterX(), startThumbSize / 2, mStartThumbPaint);
+        canvas.drawCircle(mEndThumb.getCenterY(), mEndThumb.getCenterX(), endThumbSize / 2, mEndThumbPaint);
 
         // debug draw
         if (debug) {
@@ -386,4 +386,7 @@ public class VerticalRangeBar extends View implements RangeBar{
         super.onDetachedFromWindow();
     }
 
+    public int getHeightCenter(){
+        return viewHeight / 2;
+    }
 }
